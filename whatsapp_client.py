@@ -36,3 +36,22 @@ class WhatsAppWrapper:
         assert response.status_code == 200, "Error sending message"
 
         return response.status_code
+    
+    def process_webhook_notification(self, data):
+        """_summary_: Process webhook notification
+        For the moment, this will return the type of notification
+        """
+
+        response = []
+
+        for entry in data["entry"]:
+
+            for change in entry["changes"]:
+                response.append(
+                    {
+                        "type": change["field"],
+                        "from": change["value"]["metadata"]["display_phone_number"],
+                    }
+                )
+        # Do whatever with the response
+        return response
